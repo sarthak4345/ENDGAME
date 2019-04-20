@@ -1,0 +1,15 @@
+public class FCFS {
+
+	private int[] processId;
+	private int[] arrivalTime;
+	private int[] burstTime;
+	private int[] completionTime;
+	private int[] waitingTime;
+	private int[] tat;
+	
+	public FCFS(int[] processId,int [] burstTime,int [] arrivalTime) {
+		
+	}
+	
+	
+}

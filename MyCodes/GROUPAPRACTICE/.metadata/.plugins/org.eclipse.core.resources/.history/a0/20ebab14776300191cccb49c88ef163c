@@ -1,0 +1,13 @@
+import java.util.*;
+import java.io.*;
+
+
+public class MacroTwo {
+
+	public static void main(String[] args) {
+		LinkedHashMap<String,MNTEntry>mnt = new LinkedHashMap<>();
+		Vector<String> kpdt = new Vector<>();
+		Vector<String> mdt = new Vector<>();
+	}
+
+}

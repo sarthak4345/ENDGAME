@@ -1,0 +1,63 @@
+
+public class Priority {
+
+	private int[] pid;
+	private int[] bt;
+	private int[] at;
+	private int[] ct;
+	private int[] tat;
+	private int[] wt;
+	private int[] priority;
+	private boolean[] completed;
+	private int totalCompleted;
+	private int numberOfProcess;
+	
+	public Priority(int []pid,int[]bt,int []at,int[] priority) {
+		this.pid = pid;
+		this.bt = bt;
+		this.at = at;
+		this.priority = priority;
+		numberOfProcess = pid.length;
+		ct = new int[numberOfProcess];
+		tat = new int[numberOfProcess];
+		wt = new int[numberOfProcess];;
+		completed = new boolean[numberOfProcess];
+		for(int i=0;i<numberOfProcess;i++)
+			completed[i] = false;
+		totalCompleted = 0;
+	}
+	
+	
+	
+	public void schedule() {
+		
+		//Firstly sorting according to the priority
+	
+			for(int i=0;i<numberOfProcess;i++) {
+			
+				for(int j=0;j<=numberOfProcess;j++) {
+				
+					if(priority[j] > priority[j+1]) {
+						
+						//Sorting the arrivalTime array
+						int tempa = at[j];
+						at[j] = at[j+1];
+						at[j+1] = tempa;
+					
+						//Sorting the burstTime array
+						int tempb = bt[j];
+						bt[j] = bt[j+1];
+						bt[j+1] = tempb;
+						
+						int tempid = pid[j];
+						pid[j] = pid[j+1];
+						pid[j+1] = tempid;
+					}
+				
+			}
+			
+		}
+	}
+	
+	
+}

@@ -1,0 +1,245 @@
+package com.sarthak;
+import java.util.*;
+import java.io.*;
+
+public class PassOne {
+
+	int lc = 0;			//Initializing location counter to zero
+	int littab_ptr = 0, pooltab_ptr = 0;
+	int symIndex =0,litIndex=0;
+	LinkedHashMap<String,TableRow> SYMTAB;
+	ArrayList<TableRow> LITTAB;
+	ArrayList<Integer> POOLTAB;
+	private BufferedReader br;		//For reading the input file
+	
+	//Initializing all the tables
+	public PassOne() {
+		
+		SYMTAB = new LinkedHashMap<>();
+		LITTAB = new ArrayList<>();
+		POOLTAB = new ArrayList<>();
+		lc = 0;
+		POOLTAB.add(0);		//As first entry of pooltab is always zero
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		
+	}
+	
+	
+	public void parseFile() throws IOException {
+		
+		String code;
+		br = new BufferedReader(new FileReader("input.asm"));
+		BufferedWriter bw = new BufferedWriter(new FileWriter("IC.txt"));
+		String line;		//For each line of the input file
+		MnemonicTable mnemonicTable = new MnemonicTable();
+		
+		while((line=br.readLine()) != null) {
+			
+			String parts[] = line.split("\\s+");		//Seperating based on the spaces.
+			
+			//IF label is present we will process it
+			
+			if(!parts[0].isEmpty()) {
+			
+				if(SYMTAB.containsKey(parts[0])) {
+					
+					//If the symbol is already present then we have to assign the address to that symbol
+					SYMTAB.put(parts[0], new TableRow(parts[0],lc,SYMTAB.get(parts[0]).getIndex()));
+					
+				}
+				
+			else {
+				//If symbol is not already present directly insert it
+				SYMTAB.put(parts[0], new TableRow(parts[0], lc , ++symIndex));	
+				
+			}
+		}
+			
+			//If the second part is LTORG the we have to process all the literals present in the litab
+			if(parts[1].equals("LTORG")) {
+				
+				int ptr = POOLTAB.get(pooltab_ptr);		//Getting how much values have been assigned the addresses
+				for(int i=ptr;i<littab_ptr;i++) {
+					
+					LITTAB.set(i, new TableRow(LITTAB.get(i).getSymbol(),lc));
+					code = "(DL,02)\t(C,"+LITTAB.get(i).getSymbol()+")";
+					bw.write(code+"\n");
+					
+				}
+				
+				pooltab_ptr++;
+				POOLTAB.add(littab_ptr);
+			}
+			
+			
+			//If second part is START
+			
+			if(parts[1].equals("START")){
+				
+				lc = getlc("parts[2]");
+				code = "(AD,01)\t(C,"+lc+")";
+				bw.write(code+"\n");
+				
+			}else if(parts[1].equals("ORIGIN")){
+				
+				lc = getlc("parts[2]");
+				String splits[] = parts[2].split("\\+");
+				code = "(AD,03)\t(S,"+SYMTAB.get(splits[0]).getIndex()+")\t(C,"+Integer.parseInt(splits[1])+")";
+				bw.write(code+"\n");
+			}
+			
+			//For EQU
+			
+			
+			//For DL Statements
+			
+			if(parts[1].equals("DC")) {
+				lc++;
+				int constant = Integer.parseInt(parts[2]);
+				code = "(DL,02)\t(C,"+constant+")";
+				bw.write(code+"\n");
+			}else if(parts[1].equals("DS")) {
+				
+				int size = Integer.parseInt(parts[2]);
+				lc+=size;
+				code = "(DL,01)\t(C,"+size+")";
+				bw.write(code+"\n");
+				
+			}
+			
+			//For IS statement
+			
+			if(mnemonicTable.getType(parts[1]).equals("IS")) {
+				
+				code = "(IS,"+mnemonicTable.getCode(parts[1])+")\t";
+				int j=2;
+				String code2="";
+				
+				//Processing the registers and further constants or literals
+				while(j<parts.length) {
+					
+					parts[j] = parts[j].replace(",", "");//Replacing comma with empty space
+					if(mnemonicTable.getType(parts[j]).equals("RG")) {
+						
+						code2 += mnemonicTable.getCode(parts[j])+"\t";
+					}else {
+						
+						
+						if(parts[j].contains("=")) {
+							//If it is a literal
+							parts[j] = parts[j].replace("=", "");
+							LITTAB.add(new TableRow(parts[j],-1,++litIndex));
+							littab_ptr++;
+							code2 += "(L,"+(litIndex)+")";
+							
+						}else if(SYMTAB.containsKey(parts[j])) {
+							
+							//If the symbol is already present
+							int ind = SYMTAB.get(parts[j]).getIndex();
+							code2 += "(S,"+ind+")";
+							
+						}
+						
+						else {
+							//If symbol is not present in the symbol we must first add it
+							SYMTAB.put(parts[j], new TableRow(parts[j],-1,++symIndex));
+							int ind = SYMTAB.get(parts[j]).getIndex();
+							code2 += "(S,"+ind+")\t";
+							
+						}
+					}
+					j++;
+					
+				}
+				lc++;
+				//Final code of that line
+				code += code2;
+				bw.write(code+"\n");
+				
+		}
+			
+			//For END STATEMENT
+			
+			if(parts[1].equals("END")){
+				
+				//Processing the literal first
+				
+				int ptr = POOLTAB.get(pooltab_ptr);
+				for(int i=ptr;i<littab_ptr;i++) {
+					
+					LITTAB.set(i, new TableRow(LITTAB.get(i).getSymbol(),lc));		//Setting the address of that literal
+					code = "(DL,02)\t(C,"+LITTAB.get(i).getSymbol()+")";
+					bw.write(code+"\n");
+					lc++;
+				}
+				
+				pooltab_ptr++;
+				POOLTAB.add(littab_ptr);
+				code = "(AD,02)";
+				bw.write(code+"\n");
+			}
+	}
+		
+		bw.close();
+		printSYMTAB();
+		printLITTAB();
+		printPOOLTAB();
+		
+	}
+	
+	
+	
+	
+	public int getlc(String str) {
+		
+		int temp;
+		
+		if(str.contains("+")) {
+			
+			//Eg ORIGIN L+100
+			String splits[] = str.split("\\+");
+			temp = SYMTAB.get(splits[0]).getAddress() + Integer.parseInt(splits[1]);
+		}
+		else if(str.contains("-")) {
+		
+			//Eg ORIGIN L-100
+			String splits[] = str.split("\\-");
+			temp = SYMTAB.get(splits[0]).getAddress() + Integer.parseInt(splits[1]);
+		}
+		
+		else {
+			//Eg START 100
+			temp = Integer.parseInt(str);
+		}
+		return temp;
+	}
+	
+	void printSYMTAB() throws IOException{
+		
+		BufferedWriter bw = new BufferedWriter(new FileWriter("POOLTAB.txt"));
+		System.out.println("POOLTAB");
+		System.out.println("INDEX\t#First");
+		for(int i=0;i<POOLTAB.size();i++) {
+			
+		}
+		
+		
+	}
+	
+	void printLITTAB() {
+			
+			
+			
+		}
+	
+	void printPOOLTAB() {
+		
+		
+		
+	}
+
+}

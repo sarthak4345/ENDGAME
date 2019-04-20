@@ -1,0 +1,12 @@
+
+public class Priority {
+
+	private int[] pid;
+	private int[] bt;
+	private int[] at;
+	private int[] ct;
+	private int[] tat;
+	private int[] wt;
+	
+	
+}

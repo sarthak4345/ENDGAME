@@ -1,0 +1,86 @@
+import java.io.*;
+import java.util.*;
+
+public class MacroOne {
+	
+	public static void main(String[] args) throws IOException {
+		
+		FileWriter mntWriter = new FileWriter("MNT.txt");
+		FileWriter pntabWriter = new FileWriter("PNTAB.txt");
+		FileWriter kpdtWriter = new FileWriter("KPDT.txt");
+		FileWriter mdtWriter = new FileWriter("MDT.txt");
+		FileWriter ic = new FileWriter("IC.txt");
+		LinkedHashMap<String,Integer> pntab = new LinkedHashMap<>();
+	
+		BufferedReader br = new BufferedReader(new FileReader("input.asm"));
+		
+		int pp=0,kp=0,mdtp=1,kpdtp=0,paramNo=1,flag=0;
+		
+		String line,macroname;
+		
+		while((line = br.readLine())!=null) {
+			String parts[] = line.split("\\s+");
+			
+			if(parts[0].equals("MACRO")) {
+				
+				flag = 1;
+				line = br.readLine();
+				parts = line.split("\\s+");
+				if(parts.length <=1) {
+					mntWriter.write(parts[0]+":\t"+pp+"\t"+kp+"\t"+mdtp+"\t"+((kp==0)?(kpdtp):(kpdtp+1)));
+					continue;
+				}
+				
+				for(int i=1;i<parts.length;i++) {
+					parts[i] = parts[i].replaceAll("[&,]", "");
+					System.out.println(parts[i]);
+					if(parts[i].contains("=")) {
+						
+						System.out.println("IN KP");
+						String splits[] = parts[i].split("=");
+						pntab.put(splits[0], paramNo++);
+						if(splits.length == 2) {
+							
+							kpdtWriter.write(splits[0]+"\t"+splits[1]+"\n");
+							kp++;
+							
+						}else {
+							
+							kpdtWriter.write(splits[0]+"\t--\n");
+							kp++;
+						}
+						
+					
+					}else {
+						
+						System.out.println("IN PP:"+parts[i]);
+						String a = parts[i];
+						pntab.put(a, paramNo++);
+						pp++;
+						
+					}
+				}
+			}
+			
+			
+			
+		}
+		
+		System.out.println("PNTAB");
+		Iterator<String> itr = pntab.keySet().iterator();
+		while(itr.hasNext()) {
+			System.out.println(itr.next()+"\t"+pntab.get(itr.next()));
+			
+		}
+		System.out.println("PP:"+pp);
+		System.out.println("KP:"+kp);
+		
+		mntWriter.close();
+		mdtWriter.close();
+		pntabWriter.close();
+		ic.close();
+		kpdtWriter.close();
+		
+	}
+
+}

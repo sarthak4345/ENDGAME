@@ -1,0 +1,148 @@
+package com.sarthak;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+import java.io.*;
+
+
+public class MacroPass2 {
+
+	public static void main(String[] args) throws IOException {
+	
+		//Creating readers for reading all the tables and intermediate code
+		BufferedReader ic = new BufferedReader(new FileReader("intermediate.txt"));
+		BufferedReader mdtReader = new BufferedReader(new FileReader("mdt.txt"));
+		BufferedReader mntReader = new BufferedReader(new FileReader("mnt.txt"));
+		BufferedReader kpdtReader = new BufferedReader(new FileReader("kpdt.txt"));
+
+		FileWriter fr = new FileWriter("pass2.txt");
+		//Creating data-structures to store the data from the tables
+		
+		HashMap<String,MNTEntry> mnt = new HashMap<>();
+		HashMap<Integer,String> aptab = new HashMap<>();		//For storing Actual parameter
+		HashMap<String,Integer> aptabInverse = new HashMap<>();	//We will use this in case of keyword parameter for updating the actual default value with actual value
+		
+		
+		Vector<String> mdt = new Vector<String>();
+		Vector<String> kpdt = new Vector<String>();
+		
+		int pp,kp,mdtp,kpdtp,paramNo;
+		String line;
+		while((line = mdtReader.readLine()) != null) {
+			mdt.add(line);
+		}
+		
+		while((line = kpdtReader.readLine()) != null) {
+			kpdt.add(line);
+		}
+		
+		while((line = mntReader.readLine()) != null) {
+			
+			String parts[] = line.split("\\s+");
+			mnt.put(parts[0], new MNTEntry(parts[0],Integer.parseInt(parts[1]),Integer.parseInt(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4])));
+		}
+		
+		//Start reading the intermediate code and expand the macro
+		while((line = ic.readLine()) != null) {
+			
+			String parts[] = line.split("\\s+");
+			
+			//If the mnt contains the name of that macro then expand that macro
+			if(mnt.containsKey(parts[0])) {
+				
+				//Getting the pp, kp, kpdtp and mdtp of that macro from mnt
+				
+				pp = mnt.get(parts[0]).getPp();
+				kp = mnt.get(parts[0]).getKp();
+				kpdtp = mnt.get(parts[0]).getKpdtp();
+				mdtp = mnt.get(parts[0]).getMdtp();
+				paramNo = 1;				
+				//Making entries of positional parameters in the aptab i.e storing the actual parameters
+				
+				for(int i=0;i<pp;i++) {
+					
+					parts[paramNo] = parts[paramNo].replace(",","");
+					aptab.put(paramNo, parts[paramNo]);
+					aptabInverse.put(parts[paramNo],paramNo);
+					paramNo++;
+				}
+				
+				//Making the entries of default keyword parameter entries in the ap tab
+				int j = kpdtp-1;			//We subtract 1 from all pointers as we have stored all values in our respective data structures from 0
+				
+				for(int i=0;i<kp;i++) {
+					
+					String temp[] = kpdt.get(j).split("\\s+");
+					//Here temp[0] is the name of kp and temp[1] is the actual default value
+					//We want to store the default value in the aptab
+					aptab.put(paramNo,temp[1]);
+					j++;
+					paramNo++;
+					
+				}
+				
+				//To check the contains of aptab
+				/*Iterator it = aptab.keySet().iterator();
+				while(it.hasNext()) {
+					int temp = (int) it.next();
+					System.out.println(temp+"\t"+aptab.get(temp));
+				}*/
+				
+				//Storing the actual values of keyword parameters provided by the user
+				for(int i=pp+1;i<parts.length;i++) {
+					parts[i] = parts[i].replace(",","");
+					System.out.println(parts[i]);
+					String splits[] = parts[i].split("=");
+					//System.out.println(splits[0]+splits[1]);
+					//&A=CREG
+					String name = splits[0].replaceAll("&", "");
+					//aptab.put(aptabInverse.get(name), splits[1]);
+					//System.out.println(aptabInverse.get(name)+"\t"+aptab.get(aptabInverse.get(name)));
+				}
+				
+				
+				int i = mdtp-1;
+				while(!mdt.get(i).equalsIgnoreCase("MEND"))		//While MEND doesn't come we will expand the macro
+				{
+					
+					String splits[] = mdt.get(i).split("\\s+");
+					fr.write("+");
+					for(int k=0;k<splits.length;k++) {
+						
+						//If we have (P,)
+						if(splits[k].contains("(P,")) {
+							
+							splits[k] = splits[k].replaceAll("[^0-9]", "");
+							String actualValue = aptab.get(Integer.parseInt(splits[k]));
+							fr.write(actualValue+"\t");
+							
+						}else {
+							fr.write(splits[k]+"\t");
+							
+						}
+					}
+					fr.write("\n");
+					i++;
+				}
+				
+				aptab.clear();
+				aptabInverse.clear();
+				
+			}else {
+				
+				fr.write(line+"\n");
+			}
+		}
+	
+		fr.close();
+		mntReader.close();
+		kpdtReader.close();
+		mdtReader.close();
+		ic.close();
+	}
+
+}

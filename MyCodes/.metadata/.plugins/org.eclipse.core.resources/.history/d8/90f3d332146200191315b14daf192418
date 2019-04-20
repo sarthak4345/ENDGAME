@@ -1,0 +1,86 @@
+
+public class Priority {
+
+	private int[] pid;
+	private int[] bt;
+	private int[] at;
+	private int[] ct;
+	private int[] tat;
+	private int[] wt;
+	private int[] priority;
+	private boolean[] completed;
+	private int totalCompleted;
+	private int numberOfProcess;
+	
+	public Priority(int []pid,int[]bt,int []at,int[] priority) {
+		this.pid = pid;
+		this.bt = bt;
+		this.at = at;
+		this.priority = priority;
+		numberOfProcess = pid.length;
+		ct = new int[numberOfProcess];
+		tat = new int[numberOfProcess];
+		wt = new int[numberOfProcess];;
+		completed = new boolean[numberOfProcess];
+		for(int i=0;i<numberOfProcess;i++)
+			completed[i] = false;
+		totalCompleted = 0;
+	}
+	
+	
+	
+	public void schedule() {
+			
+
+		int copy[] = new int[numberOfProcess];
+		for(int k=0;k<numberOfProcess;k++) {
+			copy[k] = bt[k];
+		}
+		
+		int systemTime = 0;
+		int i;
+		while(true) {
+			
+			if(totalCompleted == numberOfProcess)
+				break;
+			int index = numberOfProcess;
+			int minPriority = Integer.MIN_VALUE;
+			for(i=0;i<numberOfProcess;i++) {
+				
+				if(at[i] <= systemTime && priority[i] > minPriority && completed[i] == false) {
+					
+					if(priority[i] == minPriority)
+						continue;
+					minPriority = priority[i];
+					index = i;
+				}
+				
+			}
+			
+			if(index == numberOfProcess)
+				systemTime++;
+			else {
+				
+				while(bt[index] != 0) {
+					
+					systemTime++;
+					bt[index]--;
+				}
+				
+				completed[index] = true;
+				totalCompleted++;
+				ct[index] = systemTime;
+			}
+			
+		}
+		
+		System.out.println("PID	BT	AT	PRIORITY CT	TAT	 WT");
+		for(int j=0;j<numberOfProcess;j++) {
+			tat[j] = ct[j] - at[j];
+			wt[j] = tat[j] - copy[j];
+			System.out.println(pid[j]+"\t"+copy[j]+"\t"+at[j]+"\t"+priority[j]+"\t"+ct[j]+"\t"+tat[j]+"\t"+wt[j]);
+		}
+	}
+	
+	
+}

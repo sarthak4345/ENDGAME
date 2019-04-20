@@ -1,0 +1,14 @@
+import java.io.*;
+import java.util.*;
+
+public class MacroOne {
+	
+	public static void main(String[] args) throws IOException {
+		
+		FileWriter mntWriter = new FileWriter("MNT.txt");
+		FileWriter pntabWriter = new FileWriter("PNTAB.txt");
+		FilwWriter kpdtWriter = new FileWriter("KPDT.txt");
+
+	}
+
+}

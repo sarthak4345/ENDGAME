@@ -1,0 +1,17 @@
+package com.sarthak;
+import java.util.*;
+import java.io.*;
+
+public class LRU {
+
+	public static void main(String[] args) {
+		
+		
+		Scanner sc = new Scanner(System.in);
+		
+		
+		
+		HashSet<Integer> frame = new HashSet<>(capacity);
+	}
+
+}

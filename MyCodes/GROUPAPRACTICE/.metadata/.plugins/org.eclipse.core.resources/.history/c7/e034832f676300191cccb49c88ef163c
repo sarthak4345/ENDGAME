@@ -1,0 +1,22 @@
+public class PassTwo {
+
+	ArrayList<TableRow> SYMTAB = new ArrayList<>();
+	
+	
+	public static void main(String[] args) {
+		
+		PassTwo p = new PassTwo();
+		
+		p.readTables();
+		p.generateCode();
+
+	}
+
+	
+	
+	private void readTables() {
+		
+		
+	}
+
+}

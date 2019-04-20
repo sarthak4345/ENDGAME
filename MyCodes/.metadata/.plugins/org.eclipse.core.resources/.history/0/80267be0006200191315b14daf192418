@@ -1,0 +1,28 @@
+import java.util.*;
+import java.io.*;
+
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the number of processes");
+		int numOfProcess = sc.nextInt();
+		int [] processes = new int[numOfProcess];
+		int burstTime[] = new int[numOfProcess];
+		int processId[] = new int[numOfProcess];
+		
+		System.out.println("Enter Process Id and Burst Time of each processs respectively");
+		
+		for(int i = 0;i<numOfProcess;i++) {
+			processId[i] = sc.nextInt();
+			burstTime[i] = sc.nextInt();
+		}
+		
+		System.out.println("1)FCFS\n2)SJF\n3)PRIORITY\n4)ROUND ROBIN");
+		
+		
+	}
+
+}

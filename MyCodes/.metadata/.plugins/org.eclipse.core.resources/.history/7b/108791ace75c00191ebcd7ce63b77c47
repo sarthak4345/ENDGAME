@@ -1,0 +1,8 @@
+package com.sarthak;
+import java.util.*;
+
+public class MnemonicTable {
+
+	HashMap<String,Integer> IS,AD,IS,DL;
+	
+}

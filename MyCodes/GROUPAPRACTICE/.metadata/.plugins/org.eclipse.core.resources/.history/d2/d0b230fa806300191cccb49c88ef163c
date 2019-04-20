@@ -1,0 +1,31 @@
+import java.util.*;
+import java.io.*;
+
+
+public class PassOne {
+
+	BufferedReader br;
+	LinkedHashMap<String,TableRow>SYMTAB;
+	ArrayList<TableRow>LITTAB;
+	ArrayList<Integer>POOLTAB;
+	int lc=0;
+	int symIndex=0;
+	int litIndex=0,littab_ptr=0;
+	int pooltab_ptr=0;
+	MnemonicTable mnemonicTable;
+	
+	public PassOne() {
+		
+		SYMTAB = new LinkedHashMap<>();
+		LITTAB = new ArrayList<>();
+		POOLTAB = new ArrayList<>();
+		lc=0;
+		POOLTAB.add(0);
+	}
+	
+	public static void main(String[] args) {
+		
+
+	}
+
+}

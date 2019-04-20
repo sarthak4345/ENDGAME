@@ -1,0 +1,9 @@
+package com.sarthak;
+
+public class TableRow {
+
+	int index;
+	String symbol;
+	int address;
+	
+}

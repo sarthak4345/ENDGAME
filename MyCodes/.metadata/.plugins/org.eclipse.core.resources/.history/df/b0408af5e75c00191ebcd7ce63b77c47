@@ -1,0 +1,14 @@
+package com.sarthak;
+import java.util.*;
+
+public class MnemonicTable {
+
+	HashMap<String,Integer> IS,AD,DL,CC,RG;
+	public MnemonicTable() {
+			
+		//Creating instances of all Statement types
+		IS = new HashMap<>();
+		
+	}
+	
+}

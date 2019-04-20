@@ -1,0 +1,3 @@
+MACRO
+M1	&X,	&Y,	&A=AREG,	&B=
+MEND

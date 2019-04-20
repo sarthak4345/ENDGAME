@@ -1,0 +1,9 @@
+
+public class MacroTwo {
+
+	public static void main(String[] args) {
+		LinkedHashMap<String,MNTEntry>mnt = new LinkedHashMap<>()
+;
+	}
+
+}

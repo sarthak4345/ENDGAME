@@ -1,0 +1,45 @@
+package com.sarthak;
+
+import java.util.*;
+import java.io.*;
+
+public class OptimalAlgorithm {
+
+	static Scanner sc = new Scanner(System.in);
+	static int numPages;
+	static int capacity;
+	static HashSet<Integer> frame = new HashSet<>();
+	HashMap<Integer,Integer> indexes = new HashMap<>();
+	
+	public static void runOptimal() {
+		
+		System.out.println("Enter the size of the frame");
+		capacity = sc.nextInt();
+		
+		System.out.println("Enter the number of pages");
+		numPages = sc.nextInt()
+			
+		int pages[] = new int[numPages];		
+				
+		System.out.println("Enter the string of pages");
+		for(int i=0;i<numPages;i++) 
+			pages[i] = sc.nextInt();
+		
+		int pageFaults = 0,pageHits=0;
+		
+		for(int i=0;i<numPages;i++) {
+			
+			if(frame.size() < capacity) {
+				
+				if(!frame.contains(pages[i])) {
+					
+					pageFaults++;
+					frame.add(pages[i]);
+					
+				}
+			}
+		}
+		
+	}
+
+}

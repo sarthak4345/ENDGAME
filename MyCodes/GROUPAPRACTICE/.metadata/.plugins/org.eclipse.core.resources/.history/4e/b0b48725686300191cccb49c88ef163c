@@ -1,0 +1,43 @@
+import java.util.*;
+import java.io.*;
+
+public class PassTwo {
+
+	ArrayList<TableRow> SYMTAB = new ArrayList<>();
+	ArrayList<TableRow> LITTAB = new ArrayList<>();
+	BufferedReader br;
+	String line;
+	
+	public static void main(String[] args) throws IOException {
+		
+		PassTwo p = new PassTwo();
+		
+		p.readTables();
+		//p.generateCode();
+
+	}
+
+	
+	
+	private void readTables() throws IOException {
+		
+		br = new BufferedReader(new FileReader("SYMTAB.txt"));
+		while((line=br.readLine())!= null) {
+			
+			String parts[] = line.split("\\s+");
+			SYMTAB.add(new TableRow(Integer.parseInt(parts[0]),parts[1],Integer.parseInt(parts[2])));
+			
+		}
+		br.close();
+		
+		br = new BufferedReader(new FileReader("LITTAB.txt"));
+		
+		while((line=br.readLine())!=null) {
+			
+			String parts[] = line.split("\\s+");
+			LITTAB.add(new TableRow(Integer.parseInt(parts[0]),parts[1],Integer.parseInt(parts[2])));
+		}
+		br.close();
+	}
+
+}

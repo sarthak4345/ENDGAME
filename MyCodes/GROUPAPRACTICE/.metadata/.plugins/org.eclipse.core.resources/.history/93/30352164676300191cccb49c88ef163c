@@ -1,0 +1,26 @@
+import java.util.*;
+import java.io.*;
+
+public class PassTwo {
+
+	ArrayList<TableRow> SYMTAB = new ArrayList<>();
+	ArrayList<TableRow> LITTAB = new ArrayList<>();
+	BufferedReader br = new BufferedReader(new FileReader("IC.txt"));
+	
+	public static void main(String[] args) {
+		
+		PassTwo p = new PassTwo();
+		
+		p.readTables();
+		p.generateCode();
+
+	}
+
+	
+	
+	private void readTables() {
+		
+		
+	}
+
+}

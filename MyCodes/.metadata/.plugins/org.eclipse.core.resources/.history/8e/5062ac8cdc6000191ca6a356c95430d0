@@ -1,0 +1,54 @@
+package com.sarthak;
+import java.util.*;
+import java.io.*;
+
+public class BankersAlgorithm {
+
+	static Scanner sc = new Scanner(System.in);
+	
+	public static void main(String[] args) {
+		
+		int resources,processes;
+		System.out.println("Enter the number of resources");
+		resources = sc.nextInt();
+		System.out.println("Enter the number of processes");
+		processes = sc.nextInt();
+		
+		//Required Data structures
+		int available[] = new int[resources];
+		int allocation[][] = new int[processes][resources];
+		int max[][] = new int[processes][resources];
+		int need[][] = new int[processes][resources];
+		
+		boolean finish[] = new boolean[processes];
+		//initialize all the processes to false
+		for(int i=0;i<processes;i++) {
+			finish[i] = false;
+		}
+		
+		//Accepting available vector
+		
+		System.out.println("Enter the available Vector");
+		for(int i=0;i<resources;i++) {
+			
+			available[i] = sc.nextInt();
+		}
+		
+		System.out.println("Enter the MAX matrix");
+		acceptMatrix(max,processes,resources);
+		
+		System.out.println("Enter the allocation matrix")
+		
+	}
+	
+	public static void acceptMatrix(int matrix[][],int r,int c) {
+		
+		for(int i=0;i<r;i++) {
+			for(int j=0;j<c;j++) {
+				
+				matrix[i][j] = sc.nextInt();
+			}
+		}
+	}
+
+}

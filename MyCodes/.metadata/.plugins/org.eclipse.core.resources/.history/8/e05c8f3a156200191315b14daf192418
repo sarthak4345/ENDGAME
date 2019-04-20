@@ -1,0 +1,20 @@
+
+public class RR {
+
+	private int[] pid;
+	private int[] bt;
+	private int[] ct;
+	private int[] tat;
+	private int[] wt;
+	private int quantum;
+	private int numberOfProcess;
+	
+	public RR(int [] pid,int []bt,int quantum) {
+		
+		this.pid = pid;
+		this.bt = bt;
+	}
+
+}
+
+

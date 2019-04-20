@@ -1,0 +1,6 @@
+package com.sarthak;
+import java.util.*;
+
+public class MnemonicTable {
+
+}

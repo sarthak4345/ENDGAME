@@ -1,0 +1,15 @@
+//Class for inserting and retrieving rows in each table. AS we know rach row of all tables contains index, symbol
+//and the address of that symbol
+
+package com.sarthak;
+
+public class TableRow {
+	
+	int index;
+	String symnbol;
+	int address;
+	
+	
+	
+
+}

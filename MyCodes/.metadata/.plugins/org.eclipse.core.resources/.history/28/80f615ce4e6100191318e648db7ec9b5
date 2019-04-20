@@ -1,0 +1,7 @@
+package com.sarthak;
+
+public class MNTEntry {
+
+	String macroname;
+	int kp,pp,kpdtp,mdtp;
+}

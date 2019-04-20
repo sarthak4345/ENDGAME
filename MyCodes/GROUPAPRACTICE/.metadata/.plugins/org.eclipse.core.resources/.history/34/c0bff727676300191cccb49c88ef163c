@@ -1,0 +1,12 @@
+public class PassTwo {
+
+	public static void main(String[] args) {
+		
+		PassTwo p = new PassTwo();
+		
+		p.readTables();
+		p.generateCode();
+
+	}
+
+}

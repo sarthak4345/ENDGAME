@@ -1,0 +1,39 @@
+import java.util.*;
+import java.io.*;
+
+
+public class MacroTwo {
+
+	public static void main(String[] args) throws IOException {
+		
+		BufferedReader mntReader = new BufferedReader(new FileReader("MNT.txt"));
+		BufferedReader mdtReader = new BufferedReader(new FileReader("MDT.txt"));
+		BufferedReader kpdtReader = new BufferedReader(new FileReader("KPDT.txt"));
+		BufferedReader ic = new BufferedReader(new FileReader("IC.txt"));
+		
+		LinkedHashMap<String,MNTEntry>mnt = new LinkedHashMap<>();
+		LinkedHashMap<Integer,String>aptab = new LinkedHashMap<>();
+		LinkedHashMap<String,Integer>aptabInverse = new LinkedHashMap<>();
+		Vector<String> kpdt = new Vector<>();
+		Vector<String> mdt = new Vector<>();
+		String line;
+		
+		while((line = mntReader.readLine()) != null) {
+			
+			String parts[] = line.split("\\s+");
+			mnt.put(parts[0], new MNTEntry(Integer.parseInt(parts[1]),Integer.parseInt(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4])));
+		}
+		
+		while((line=mdtReader.readLine())!=null) {
+			mdt.add(line);
+		}
+		while((line=kpdtReader.readLine())!=null) {
+			kpdt.add(line);
+		}
+	
+		
+		System.out.println("MDT");
+		
+	}
+
+}

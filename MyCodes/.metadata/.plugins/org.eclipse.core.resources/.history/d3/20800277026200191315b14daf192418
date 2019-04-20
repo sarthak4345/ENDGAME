@@ -1,0 +1,51 @@
+public class FCFS {
+
+	private int[] processId;
+	private int[] arrivalTime;
+	private int[] burstTime;
+	private int[] completionTime;
+	private int[] waitingTime;
+	private int[] tat;
+	
+	public FCFS(int[] processId,int [] burstTime,int [] arrivalTime) {
+		
+		this.arrivalTime = arrivalTime;
+		this.burstTime = burstTime;
+		this.processId = processId;
+		completionTime = new int[processId.length];
+		waitingTime = new int[processId.length];
+		tat = new int[processId.length];
+	}
+	
+	public void schedule() {
+		
+		//Sorting according to the arrival time
+		for(int i=0;i<processId.length;i++) {
+			
+			for(int j=0;j<=processId.length-2-i;j++) {
+				
+				if(arrivalTime[j] > arrivalTime[j+1]) {
+					
+					//Sorting the arrivalTime array
+					int tempa = arrivalTime[j];
+					arrivalTime[j] = arrivalTime[j+1];
+					arrivalTime[j+1] = tempa;
+				
+					//Sorting the burstTime array
+					int tempb = burstTime[j];
+					burstTime[j] = burstTime[j+1];
+					burstTime[j+1] = tempb;
+					
+					int tempid = processId[j];
+					processId[j] = processId[j+1];
+					processId[j+1] = tempid;
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	
+}

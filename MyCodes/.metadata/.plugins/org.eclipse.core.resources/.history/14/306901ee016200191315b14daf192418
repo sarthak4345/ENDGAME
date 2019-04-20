@@ -1,0 +1,21 @@
+public class FCFS {
+
+	private int[] processId;
+	private int[] arrivalTime;
+	private int[] burstTime;
+	private int[] completionTime;
+	private int[] waitingTime;
+	private int[] tat;
+	
+	public FCFS(int[] processId,int [] burstTime,int [] arrivalTime) {
+		
+		this.arrivalTime = arrivalTime;
+		this.burstTime = burstTime;
+		this.processId = processId;
+		completionTime = new int[processId.length];
+		waitingTime = new int[processId.length];
+		tat = new int[processId.length];
+	}
+	
+	
+}

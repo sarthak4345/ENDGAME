@@ -1,0 +1,18 @@
+import java.util.*;
+import java.io.*;
+
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the number of processes");
+		int numOfProcess = sc.nextInt();
+		int [] processes = new int[numOfProcess];
+		int burstTime[] = new int[numOfProcess];
+		
+		
+	}
+
+}

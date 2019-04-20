@@ -1,0 +1,28 @@
+import java.io.*;
+import java.util.*;
+
+public class MacroOne {
+	
+	public static void main(String[] args) throws IOException {
+		
+		FileWriter mntWriter = new FileWriter("MNT.txt");
+		FileWriter pntabWriter = new FileWriter("PNTAB.txt");
+		FileWriter kpdtWriter = new FileWriter("KPDT.txt");
+		FileWriter mdtWriter = new FileWriter("MDT.txt");
+		FileWriter ic = new FileWriter("IC.txt");
+		LinkedHashMap<String,Integer> pntab = new LinkedHashMap<>();
+	
+		BufferedReader br = new BufferedReader(new FileReader("input.asm"));
+		
+		int pp=0,kp=0,mdtp=1,kpdtp=0,paramNo=1;
+		
+		String line;
+		
+		while((line = br.readLine())!=null) {
+			
+			
+		}
+		
+	}
+
+}

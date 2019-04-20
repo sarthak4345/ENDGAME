@@ -1,0 +1,13 @@
+import java.util.*;
+import java.io.*;
+
+
+public class MacroTwo {
+
+	public static void main(String[] args) {
+		LinkedHashMap<String,MNTEntry>mnt = new LinkedHashMap<>();
+		ArrayList<String> kpdt = new ArrayList<>();
+		ArrayList<String> mdt = new ArrayList<>();
+	}
+
+}

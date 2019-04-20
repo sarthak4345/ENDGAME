@@ -1,0 +1,29 @@
+
+public class Priority {
+
+	private int[] pid;
+	private int[] bt;
+	private int[] at;
+	private int[] ct;
+	private int[] tat;
+	private int[] wt;
+	private int[] priority;
+	private boolean[] completed;
+	private int totalCompleted;
+	private int numberOfProcess;
+	
+	public Priority(int []pid,int[]bt,int []at,int[] priority) {
+		this.pid = pid;
+		this.bt = bt;
+		this.at = at;
+		this.priority = priority;
+		numberOfProcess = pid.length;
+		ct = new int[numberOfProcess];
+		tat = new int[numberOfProcess];
+		wt = new int[numberOfProcess];;
+		completed = new boolean[numberOfProcess];
+		for(int i=0;i<numberOfProcess;i++)
+			completed[i] = false;
+	}
+	
+}

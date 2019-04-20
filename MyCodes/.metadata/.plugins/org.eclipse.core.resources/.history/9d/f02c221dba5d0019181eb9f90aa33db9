@@ -1,0 +1,112 @@
+package com.sarthak;
+
+import java.util.*;
+import java.io.*;
+
+public class MacroPassOne {
+
+	public static void main(String[] args) throws IOException {
+		
+			BufferedReader br = new BufferedReader(new FileReader("macro_input.asm"));
+			FileWriter mnt = new FileWriter("MNT.txt");
+			FileWriter mdt = new FileWriter("MDT.txt");
+			FileWriter kpdt = new FileWriter("KPDT.txt");
+			FileWriter pnt = new FileWriter("PNTAB.txt");
+			FileWriter ic = new FileWriter("INTERMEDIATE.txt");
+			LinkedHashMap<String,Integer> pntab = new LinkedHashMap<>();
+			int flag=0;
+			String line;
+			String macroname=null;
+			int mdtp=1,kpdtp=0,parameterNo=1,pp=0,kp=0;	//Initializing table pointers
+			
+			while((line = br.readLine())!=null) {
+				
+				String parts[] = line.split("\\s+");
+				if(parts[0].equalsIgnoreCase("MACRO")) {
+					
+					flag = 1;		//To tell that macro is started
+					line = br.readLine();
+					parts = line.split("\\s+");
+					macroname = parts[0];
+					//If Macro doesn't has any parameters
+					if(parts.length <=1) {
+						
+						mnt.write(parts[0]+"\t"+pp+"\t"+kp+"\t"+mdtp+"\t"+(kp==0?kpdtp:(kpdtp+1))+"\n");
+						continue;
+					}
+					
+					//Processing of parameters
+					for(int i=1;i<parts.length;i++) {
+						
+							parts[i] = parts[i].replaceAll("[&,]", "");
+							
+							//For KeyWord Parameters
+							if(parts[i].contains("=")) {
+								
+								++kp;		//Incrementing keyword parameter
+								String parameters[] = parts[i].split("=");
+								pntab.put(parameters[0], parameterNo++);
+								//If keyword parameter has some default value insert that default value in kpdt
+								if(parameters.length == 2) {
+									
+									kpdt.write(parameters[0]+"\t"+parameters[1]+"\n");
+								}else {
+									
+									kpdt.write(parameters[0]+"\t-");
+								}
+								
+								
+							}
+							//Not Keyword Parameters
+							else {
+								pntab.put(parts[i],parameterNo++);
+								pp++;
+							}
+						
+					}
+				
+					//Writing these values in MNT
+					mnt.write(parts[0]+"\t"+pp+"\t"+kp+"\t"+mdtp+"\t"+(kp==0?kpdtp:(kpdtp+1))+"\n");
+					kpdtp += kp;		//Updating the kpdt pointer
+					
+				}
+				
+				//Macro end
+				else if(parts[0].equals("MEND")) {
+					
+					mdt.write(line+"\n");
+					
+				}
+				
+				//Macro definition
+				else if(flag == 1) {
+					
+					for(int i=0;i<parts.length;i++) {
+						
+						//If parameter then we have to write in the format (P,-)
+						if(parts[i].contains("&")) {
+							
+							parts[i] = parts[i].replaceAll("[&,]", "");
+							mdt.write("(P,"+pntab.get(parts[i])+")\t");
+						}
+						else {
+							
+							mdt.write(parts[i]+"\t");
+						}
+					}
+					
+					mdt.write("\n");
+					mdtp++;
+				}
+				
+				//Other than macro definitons and prototype
+				else {
+					
+					ic.write(line+"\n");
+				}
+				
+				
+			}
+	}
+
+}

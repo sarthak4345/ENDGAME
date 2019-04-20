@@ -1,0 +1,11 @@
+
+public class MacroOne {
+
+	FileWriter mntWriter = new FileWriter();
+	
+	public static void main(String[] args) {
+		
+
+	}
+
+}

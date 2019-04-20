@@ -1,0 +1,13 @@
+package com.sarthak;
+import java.util.*;
+import java.io.*;
+
+public class test {
+
+	public static void main(String[] args) {
+		
+		HashSet<Integer> s = new HashSet<>(4);
+		HashMap<Integer,Integer> m = new HashMap<>();
+	}
+
+}

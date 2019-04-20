@@ -1,0 +1,20 @@
+import java.util.*;
+import java.io.*;
+
+
+public class MacroTwo {
+
+	public static void main(String[] args) {
+		
+		BufferedReader mntReader = new BufferedReader(new FileReader("MNT.txt"));
+		BufferedReader mdtReader = new BufferedReader(new FileReader("MDT.txt"));
+		BufferedReader kpdtReader = new BufferedReader(new FileReader("KPDT.txt"));
+		
+		LinkedHashMap<String,MNTEntry>mnt = new LinkedHashMap<>();
+		LinkedHashMap<Integer,String>aptab = new LinkedHashMap<>();
+		LinkedHashMap<String,Integer>aptabInverse = new LinkedHashMap<>();
+		Vector<String> kpdt = new Vector<>();
+		Vector<String> mdt = new Vector<>();
+	}
+
+}

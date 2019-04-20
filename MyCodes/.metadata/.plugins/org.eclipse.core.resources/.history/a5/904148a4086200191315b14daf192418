@@ -1,0 +1,70 @@
+public class SJF {
+
+	private int [] pid;
+	private int[] bt;
+	private int[] at;
+	private int[] ct;
+	private int[] tat;
+	private int[] wt;
+	private int systemTime;		//For keeping the track of time for different arrival time
+	private boolean [] completed;	//Marking whether the process is completed or not
+	private int totalCompleted;	//Keeping count of total completed process
+	
+	public SJF(int []pid,int []bt,int [] at) {
+		this.pid = pid;
+		this.bt = bt;
+		this.at = at;
+		ct = new int[pid.length];
+		tat = new int[pid.length];
+		wt = new int[pid.length];
+		systemTime = 0;
+		completed = new boolean[pid.length];
+		for(int i=0;i<pid.length;i++)
+			completed[i] = false;
+		totalCompleted = 0;
+	}
+	
+	int numberOfProcess = pid.length;
+	int i;
+	
+	public void schedule() {
+	
+	while(true) {
+		
+		//Terminating condition
+		if(totalCompleted == numberOfProcess)
+			break;
+		
+		int min = Integer.MAX_VALUE;		//Setting the burstTime at max
+		int c = numberOfProcess;		
+		for(i=0;i<numberOfProcess;i++) {
+			
+			if(at[i] <= systemTime && completed[i] == false && bt[i] < min) {
+				min = bt[i];
+				c = i;
+			}
+			
+		}
+		
+		//This condition checks that if no process is available at current system time then we just have to increase the
+		//system time so that the next process can come
+		if(c == numberOfProcess)
+			systemTime++;
+		else {
+			
+			bt[c]--;
+			systemTime++;
+			//Checking whether the process is completed or not
+			if(bt[c] == 0) {
+				ct[c] = systemTime;
+				completed[c] = true;
+			}
+		}
+		
+		
+		
+	}
+
+	}
+}
+	

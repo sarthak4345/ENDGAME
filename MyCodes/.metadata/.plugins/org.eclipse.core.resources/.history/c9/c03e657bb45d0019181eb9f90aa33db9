@@ -1,0 +1,56 @@
+package com.sarthak;
+
+import java.util.*;
+import java.io.*;
+
+public class MacroPassOne {
+
+	public static void main(String[] args) throws IOException {
+		
+			BufferedReader br = new BufferedReader(new FileReader("macro_input.asm"));
+			FileWriter mnt = new FileWriter("MNT.txt");
+			FileWriter mdt = new FileWriter("MDT.txt");
+			FileWriter kpdt = new FileWriter("KPDT.txt");
+			FileWriter pnt = new FileWriter("PNTAB.txt");
+			FileWriter ic = new FileWriter("INTERMEDIATE.txt");
+			LinkedHashMap<String,Integer> pntab = new LinkedHashMap<>();
+			String line;
+			String macroname=null;
+			int mdtp=1,kpdtp=0,parameterNo=1,pp=0,kp=0;	//Initializing table pointers
+			while((line = br.readLine())!=null) {
+				
+				String parts[] = line.split("\\s+");
+				if(parts[0].equalsIgnoreCase("MACRO")) {
+					line = br.readLine();
+					parts = line.split("\\s+");
+					macroname = parts[0];
+					//If Macro doesn't has any parameters
+					if(parts.length <=1) {
+						
+						mnt.write(parts[0]+"\t"+pp+"\t"+kp+"\t"+mdtp+"\t"+(kp==0?kpdtp:(kpdtp+1))+"\n");
+						continue;
+					}
+					
+					//Processing of parameters
+					for(int i=1;i<parts.length;i++) {
+						
+							parts[i] = parts[i].replaceAll("[&,]", "");
+							
+							//For KeyWord Parameters
+							if(parts[i].contains("=")) {
+								
+								++kp;		//Incrementing keyword parameter
+								String parameters[] = parts[i].split("=");
+								pntab.put(parameters[0], parameterNo++);
+								//If keyword paramter has some default value insert that default value in kpdt
+								
+								
+							}
+						
+					}
+				}
+				
+			}
+	}
+
+}

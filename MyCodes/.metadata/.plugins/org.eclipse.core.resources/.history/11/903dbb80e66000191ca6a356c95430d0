@@ -1,0 +1,12 @@
+package com.sarthak;
+import java.util.*;
+import java.io.*;
+
+public class LRU {
+
+	public static void main(String[] args) {
+		
+		HashSet<Integer> frame = new HashSet<>(capacity);
+	}
+
+}

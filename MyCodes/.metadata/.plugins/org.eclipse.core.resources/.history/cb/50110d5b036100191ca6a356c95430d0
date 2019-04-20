@@ -1,0 +1,95 @@
+package com.sarthak;
+
+import java.util.*;
+import java.io.*;
+
+public class OptimalAlgorithm {
+
+	static Scanner sc = new Scanner(System.in);
+	static int numPages;
+	static int capacity;
+	static HashSet<Integer> frame = new HashSet<>();
+	static HashMap<Integer,Integer> nextUses = new HashMap<>();
+	
+	public static void runOptimal() {
+		
+		System.out.println("Enter the size of the frame");
+		capacity = sc.nextInt();
+		
+		System.out.println("Enter the number of pages");
+		numPages = sc.nextInt();
+			
+		int pages[] = new int[numPages];		
+				
+		System.out.println("Enter the string of pages");
+		for(int i=0;i<numPages;i++) 
+			pages[i] = sc.nextInt();
+		
+		int pageFaults = 0,pageHits=0;
+		
+		for(int i=0;i<numPages;i++) {
+			
+			if(frame.size() < capacity) {
+				
+				if(!frame.contains(pages[i])) {
+					
+					pageFaults++;
+					frame.add(pages[i]);
+					int nextUsed = nextReferenced(pages,i);		//Finding the index where this page is next referenced and adding it in the indexes
+					nextUses.put(pages[i], nextUsed);
+					
+				}else {
+					
+					pageHits++;
+					nextUses.put(pages[i], nextReferenced(pages,i));
+				}
+			}else {
+				
+					if(!frame.contains(pages[i])) {
+						pageFaults++;
+						Iterator<Integer> itr = frame.iterator();
+						int page = 0;
+						int farthest = -1;
+						while(itr.hasNext()) {
+							
+							int temp = itr.next();
+							if(nextUses.get(temp) > farthest) {
+								farthest = nextUses.get(temp);
+								page = temp;
+							}
+						}
+					
+					frame.remove(page);
+					frame.add(pages[i]);
+					nextUses.remove(farthest);
+					nextUses.put(pages[i], nextReferenced(pages,i));
+					
+				}else {
+					
+					pageHits++;
+					nextUses.put(pages[i],nextReferenced(pages,i));
+				}
+			}
+			frames.forEach(System.out::print);
+			 System.out.println();
+		}
+		 System.out.println("Number of Page Faults : "+pageFaults);
+		 System.out.println("Hits:\t"+pageHits);
+		
+	}
+	
+	public static int nextReferenced(int pages[],int currentIndex) {
+		
+		int currentPage = pages[currentIndex];
+		int nextUsed = currentIndex;
+		for(int j = currentIndex+1;j<pages.length;j++) {
+			
+			if(pages[j] == currentPage) {
+				nextUsed = j;
+			}
+			
+		}
+		return nextUsed;
+	}
+
+}

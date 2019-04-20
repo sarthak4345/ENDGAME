@@ -1,0 +1,22 @@
+package com.sarthak;
+import java.util.*;
+import java.io.*;
+
+public class LRU {
+
+	public static void main(String[] args) {
+		
+		
+		Scanner sc = new Scanner(System.in);
+		int capacity;
+		
+		System.out.println("Enter the size of frame");
+		capacity = sc.nextInt();
+		
+		System.out.println("Enter the number of pages");
+		int pages = sc.nextInt();
+		
+		HashSet<Integer> frame = new HashSet<>(capacity);
+	}
+
+}

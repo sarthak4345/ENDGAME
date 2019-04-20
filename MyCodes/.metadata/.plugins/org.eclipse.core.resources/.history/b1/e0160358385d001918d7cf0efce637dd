@@ -1,0 +1,76 @@
+package com.sarthak;
+
+import java.io.*;
+import java.util.ArrayList;
+
+public class PassTwo {
+
+		ArrayList<TableRow> SYMTAB,LITTAB;
+		
+		public PassTwo(){
+			
+			SYMTAB = new ArrayList<>();
+			LITTAB = new ArrayList<>();
+		}
+		
+	
+	public static void main(String[] args) {
+		
+
+}
+	
+	//Reading the tables generated in pass one and storing it
+	public void readTables() throws FileNotFoundException {
+		
+		BufferedReader br;
+		String line;
+		
+		try {
+			
+			br = new BufferedReader(new FileReader("SYMTAB.txt"));
+			while((line = br.readLine()) != null) {
+				
+				String parts[] = line.split("\\s+");
+				SYMTAB.add(new TableRow(Integer.parseInt(parts[0]),parts[1],Integer.parseInt(parts[2])));
+				
+			}
+			br.close();
+			br = new BufferedReader(new FileReader("LITTAB.txt"));
+			while((line=br.readLine()) != null) {
+				
+				String parts[] = line.split("\\s+");
+				LITTAB.add(new TableRow(Integer.parseInt(parts[0]),parts[1],Integer.parseInt(parts[2])));
+			}
+			br.close();
+		}catch(Exception e) {
+				
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	public void generateCode(String filename) throws IOException {
+			
+			BufferedReader br = new BufferedReader(new FileReader(filename));
+			BufferedWriter bw = new BufferedWriter(new FileWriter("MachineCode.txt"));
+			String line,code;
+			while((line=br.readLine()) != null) {
+				
+				String parts[] = line.split("\\s+");
+				
+				//Don't generate machine code for START and END and DL(i.e DS) statements
+				if(parts[0].contains("AD,01") || parts[0].contains("DL,01") || parts[0].contains("AD,02")) {
+					
+					bw.write("\n");
+					continue;
+				}else if(parts.length == 2) {
+					
+					if(parts[0].contains("Dl"))
+					
+				}
+			}
+		
+	}
+	
+}

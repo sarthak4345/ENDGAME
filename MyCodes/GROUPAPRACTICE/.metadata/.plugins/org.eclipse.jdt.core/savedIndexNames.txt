@@ -1,0 +1,5 @@
+INDEX VERSION 1.130+/home/sarthak/sarthak/SPOS/MyCodes/GROUPAPRACTICE/.metadata/.plugins/org.eclipse.jdt.core
+4149213628.index
+3023510050.index
+2632578347.index
+3750827701.index
